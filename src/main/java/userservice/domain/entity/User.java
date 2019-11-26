@@ -40,13 +40,13 @@ public class User {
 	@NotEmpty(message = "Please provide your last name")
 	private String lastName;
   
-  @CreatedDate
-  @Column(name = "created_time")
-  private Date createdTime;
+  	@CreatedDate
+  	@Column(name = "created_time")
+  	private Date createdTime;
 
-  @LastModifiedDate
-  @Column(name = "modified_time")
-  private Date modifiedTime;
+  	@LastModifiedDate
+  	@Column(name = "modified_time")
+  	private Date modifiedTime;
 
 // Based on need we can add created by and modified by but for now, we can assume only user can create or modify himself...
 
@@ -90,20 +90,20 @@ public class User {
 		this.email = email;
 	}
 
-  public Date getCreatedTime() {
-    return createdTime;
-  }
+  	public Date getCreatedTime() {
+    		return createdTime;
+  	}
 
-  public void setCreatedTime(Date createdTime) {
-    this.createdTime = createdTime;
-  }
+	  public void setCreatedTime(Date createdTime) {
+	    this.createdTime = createdTime;
+	  }
 
-  public Date getModifiedTime() {
-    return modifiedTime;
-  }
+	  public Date getModifiedTime() {
+	    return modifiedTime;
+	  }
 
-  public void setModifiedTime(Date modifiedTime) {
-    this.modifiedTime = modifiedTime;
-  }
+	  public void setModifiedTime(Date modifiedTime) {
+	    this.modifiedTime = modifiedTime;
+	  }
   
 }
