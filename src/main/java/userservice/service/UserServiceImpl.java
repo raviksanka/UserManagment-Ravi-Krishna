@@ -2,30 +2,26 @@ package userservice.service;
 
 import userservice.common.*;
 import userservice.domain.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class UserServiceImpl implements UserService {
 
   @Autowired private AuthenticationUtil authUtil;
   @Autowired private UserRepository userRepository;
+  @Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
   
   @Override
   public Boolean createUserProfile(UserProfile userProfile) {
 
-      String salt = authenticationUtil.generateSalt(30);
-      // Generate secure user password 
-      String secureUserPassword = null;
-      try {
-          secureUserPassword = authenticationUtil.generateSecurePassword(userProfile.getUserPassword(), salt);
-      } catch (InvalidKeySpecException ex) {
-          Logger.getLogger(UsersServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-          return false;
-      }
       User user = new User();
       user.setFirstName(userProfile.getFirstName());
       user.setLastName(userProfile.getLastName());
       user.setEmail(userProfile.getEmail());
-      user.setPassword(secureUserPassword);
+      user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
       userRepository.save(user);
       return true;
   }
@@ -69,6 +65,17 @@ public class UserServiceImpl implements UserService {
        return true;
       } else {
         // No User yet present with the email
+        return false;
+      }
+  }
+  
+  @Override
+  public Boolean validateLogin(String email, String password) {
+    User user = userRepository.findByEmail(userProfile.getEmail());
+    if(null != user) {
+        
+      } else {
+        // Return user not found error
         return false;
       }
   }
