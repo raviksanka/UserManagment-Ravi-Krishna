@@ -35,17 +35,16 @@ public class UserServiceImpl implements UserService {
         user.setLastName(userProfile.getLastName());
         userRepository.save(user);
         return true;
-      } else {
-        //throw Exception...
-        //log error...
-        return false;
       }
+      //throw Exception user not found to update...
+      //log error...
+      return false;
   }
   
   @Override
   public UserProfile fetchUserByEmail(String email) {
     
-      User user = userRepository.findByEmail(userProfile.getEmail());
+      User user = userRepository.findByEmail(email);
       if(null != user) {
         UserProfile userProfile = new UserProfile();
         userProfile.setFirstName(user.getFirstName());
@@ -60,24 +59,28 @@ public class UserServiceImpl implements UserService {
   
   @Override
   public Boolean checkEmailExists(String email) {
-    User user = userRepository.findByEmail(userProfile.getEmail());
+    User user = userRepository.findByEmail(email);
     if(null != user) {
        return true;
-      } else {
-        // No User yet present with the email
-        return false;
-      }
+     }
+    // No User yet present with the email
+    return false;
   }
   
   @Override
   public Boolean validateLogin(String email, String password) {
-    User user = userRepository.findByEmail(userProfile.getEmail());
+    User user = userRepository.findByEmail(email);
     if(null != user) {
-        
-      } else {
-        // Return user not found error
-        return false;
+        boolean passwordMatches = bCryptPasswordEncoder.matches(password, user.getPassword());
+        if(passwordMatches) {
+          return true;
+        } else {
+          //Throw error - Invalid email password combo
+          return false;
+        }
       }
+      // Return user not found error
+      return false;
   }
   
 }
