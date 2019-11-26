@@ -11,8 +11,7 @@ import javax.validation.Valid;
 @CrossOrigin
 public class UserServiceController {
 	
-	@Autowired
-	private UserService userService;
+	@Autowired private UserService userService;
 
 	@PostMapping("/createUserProfile")
 	public Boolean createUserProfile(@Valid @RequestBody UserProfile userProfile) {
